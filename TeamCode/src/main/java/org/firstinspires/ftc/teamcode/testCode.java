@@ -31,7 +31,7 @@ public class testCode extends LinearOpMode {
             }
 
             if(gamepad1.dpad_left){
-                servo2.setPosition(0.2);
+                servo2.setPosition(0.2); 
             }
             else if(gamepad1.dpad_right){
                 servo2.setPosition(0.8);
