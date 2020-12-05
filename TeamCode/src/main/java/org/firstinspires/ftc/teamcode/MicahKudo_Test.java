@@ -23,27 +23,24 @@ public class MicahKudo_Test extends LinearOpMode {
 
         waitForStart();
 
-        while(opModeIsActive()){
+        while(opModeIsActive()) {
             motor1.setPower(gamepad1.right_stick_y);
 
-            if(gamepad1.dpad_left){
+            if (gamepad1.dpad_left) {
                 servo.setPosition(0.2); //Corresponds to 36 degrees
-            }
-            else if(gamepad1.dpad_right){
+            } else if (gamepad1.dpad_right) {
                 servo.setPosition(0.8); //Corresponds to 144 degrees
-            }
-        }
-            else if(gamepad1.dpad_up){
+            } else if (gamepad1.dpad_up) {
                 servo.setPosition(0.5); //Corresponds to 90 degrees
             }
-            if(motor2.getCurrentPosition() > RAISE_MAX || motor2.getCurrentPosition() < RAISE_MIN){
+            if (motor2.getCurrentPosition() > RAISE_MAX || motor2.getCurrentPosition() < RAISE_MIN) {
                 motor2.setPower(0);
-            }
-            else{
+            } else {
                 motor2.setPower(gamepad1.left_stick_y);
             }
 
 
             idle();
+        }
     }
 }
