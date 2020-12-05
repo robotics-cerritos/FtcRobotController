@@ -10,9 +10,10 @@ public class outtake_drive_code extends LinearOpMode {
     //Declare motor variables
     private DcMotor leftM; //Left Motor
     private DcMotor rightM; //Right Motor
+
     @Override
     public void runOpMode() throws InterruptedException{
-//Connect motor variables to motors on hub
+//Connect motor variables to motor ports on hub
         leftM = hardwareMap.dcMotor.get("leftMotor");
         rightM = hardwareMap.dcMotor.get("rightMotor");
 //Reverse direction of one motor (will change later)
