@@ -11,7 +11,23 @@ public class intake_drive_code extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException{
         intakeMotor = hardwareMap.dcMotor.get("intakeMotor");
-        
+
+        waitForStart();
+
+        while (opModeIsActive()) {
+            if (gamepad2.right_bumper) {
+                intakeMotor.setPower(1);
+            }
+            else if (gamepad2.left_bumper) {
+                intakeMotor.setPower(-1);
+            }
+            else {
+                intakeMotor.setPower(0);
+            }
+
+            idle();
+        }
+
     }
 
 }
