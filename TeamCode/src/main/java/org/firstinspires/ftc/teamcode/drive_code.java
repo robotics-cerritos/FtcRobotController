@@ -40,6 +40,14 @@ public class drive_code extends LinearOpMode {
     private static final double FACE_SIDE_CHASSIS = 0.2;
     private static final double FACE_BACK_CHASSIS = 0.8;
 
+    //Intake Variables------------------------------------------------------------------------------
+    //Intake Motor
+    private DcMotor intakeMotor;
+
+    //Intake Servo
+    private Servo intakeServo;
+
+
     @Override
     public void runOpMode() throws InterruptedException{
         //Drive Setup-------------------------------------------------------------------------------
@@ -72,6 +80,10 @@ public class drive_code extends LinearOpMode {
 
         //Servo Setup
         rotateS = hardwareMap.servo.get("rotateServo");
+
+        //Intake Setup------------------------------------------------------------------------------
+        intakeMotor = hardwareMap.dcMotor.get("intakeMotor");
+        intakeServo = hardwareMap.servo.get("intakeServo");
 
         waitForStart();
         while(opModeIsActive()){
@@ -119,6 +131,25 @@ public class drive_code extends LinearOpMode {
                 }
             }
 
+            //Intake Code---------------------------------------------------------------------------
+            if (gamepad2.right_bumper) {
+                intakeMotor.setPower(1);
+            }
+            else if (gamepad2.left_bumper) {
+                intakeMotor.setPower(-1);
+            }
+            else {
+                intakeMotor.setPower(0);
+            }
+
+            if(gamepad2.a){
+                intakeServo.setPosition(0.2);
+            }
+            else if(gamepad2.b){
+                intakeServo.setPosition(0.8);
+            }
+
+            //Special System Encoders Telemetry (Testing Purposes)
             telemetry.addData("Raise Encoder", raiseM.getCurrentPosition());
             telemetry.addData("Grabber Encoder", grabberM.getCurrentPosition());
 
