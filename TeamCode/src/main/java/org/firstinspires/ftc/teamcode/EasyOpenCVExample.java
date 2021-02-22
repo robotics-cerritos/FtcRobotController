@@ -36,6 +36,8 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvInternalCamera;
 import org.openftc.easyopencv.OpenCvPipeline;
+import java.util.ArrayList;
+
 
 @TeleOp
 public class EasyOpenCVExample extends LinearOpMode
@@ -72,9 +74,10 @@ public class EasyOpenCVExample extends LinearOpMode
         while (opModeIsActive())
         {
             telemetry.addData("Analysis", pipeline.getAnalysis());
-            telemetry.addData("Position", pipeline.position);
+            if(pipeline.foundPos) {
+                telemetry.addData("Position", pipeline.position);
+            }
             telemetry.update();
-
             // Don't burn CPU cycles busy-looping in this sample
             sleep(50);
         }
@@ -106,8 +109,10 @@ public class EasyOpenCVExample extends LinearOpMode
         static final int REGION_WIDTH = 35;
         static final int REGION_HEIGHT = 25;
 
-        final int FOUR_RING_THRESHOLD = 150;
-        final int ONE_RING_THRESHOLD = 135;
+        final int FOUR_RING_THRESHOLD = 168;
+        final int ONE_RING_THRESHOLD = 148;
+
+        ArrayList<RingPosition> pos = new ArrayList<RingPosition>();
 
         Point region1_pointA = new Point(
                 REGION1_TOPLEFT_ANCHOR_POINT.x,
@@ -123,6 +128,11 @@ public class EasyOpenCVExample extends LinearOpMode
         Mat YCrCb = new Mat();
         Mat Cb = new Mat();
         int avg1;
+        int fourCount = 0;
+        int oneCount = 0;
+        int noneCount = 0;
+        boolean foundPos = false;
+
 
         // Volatile since accessed by OpMode thread w/o synchronization
         private volatile RingPosition position = RingPosition.FOUR;
@@ -150,8 +160,6 @@ public class EasyOpenCVExample extends LinearOpMode
         {
             inputToCb(input);
 
-            avg1 = (int) Core.mean(region1_Cb).val[0];
-
             Imgproc.rectangle(
                     input, // Buffer to draw on
                     region1_pointA, // First point which defines the rectangle
@@ -159,13 +167,47 @@ public class EasyOpenCVExample extends LinearOpMode
                     BLUE, // The color the rectangle is drawn in
                     2); // Thickness of the rectangle lines
 
-            position = RingPosition.FOUR; // Record our analysis
-            if(avg1 > FOUR_RING_THRESHOLD){
+            for(int i = 0; i<9;i++){
+                avg1 = (int) Core.mean(region1_Cb).val[0];
+
+
+                position = RingPosition.FOUR; // Record our analysis
+                if(avg1 > FOUR_RING_THRESHOLD){
+                    position = RingPosition.FOUR;
+                }else if (avg1 > ONE_RING_THRESHOLD){
+                    position = RingPosition.ONE;
+                }else{
+                    position = RingPosition.NONE;
+                }
+                pos.add(position);
+                try {
+                    wait(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            for(RingPosition rp: pos){
+                if( rp == RingPosition.FOUR){
+                    fourCount++;
+                }
+                else if(rp == RingPosition.ONE){
+                    oneCount++;
+                }
+                else if(rp == RingPosition.NONE){
+                    noneCount++;
+                }
+            }
+            if(fourCount>3){
                 position = RingPosition.FOUR;
-            }else if (avg1 > ONE_RING_THRESHOLD){
+                foundPos = true;
+            }
+            else if(oneCount>3){
                 position = RingPosition.ONE;
-            }else{
+                foundPos = true;
+            }
+            else if(noneCount>3){
                 position = RingPosition.NONE;
+                foundPos = true;
             }
 
             Imgproc.rectangle(
