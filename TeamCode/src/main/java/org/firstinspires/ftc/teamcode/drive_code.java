@@ -1,10 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
-
+@TeleOp(name="Drive Code", group="Linear Opmode")
 public class drive_code extends LinearOpMode {
     //Drive Variables-------------------------------------------------------------------------------
     //Drive Motors
@@ -57,11 +58,13 @@ public class drive_code extends LinearOpMode {
         m3 = hardwareMap.dcMotor.get("m3");
 
         // Reverse some of the drive motors
+        m3.setDirection(DcMotor.Direction.REVERSE);
+        m1.setDirection(DcMotor.Direction.REVERSE);
         m2.setDirection(DcMotor.Direction.REVERSE);
-        m4.setDirection(DcMotor.Direction.REVERSE);
+
 
         //Outtake Setup-----------------------------------------------------------------------------
-        leftOM = hardwareMap.dcMotor.get("leftMotor");
+        /*leftOM = hardwareMap.dcMotor.get("leftMotor");
         rightOM = hardwareMap.dcMotor.get("rightMotor");
         //Reverse direction of one motor (will change later)
         leftOM.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -84,7 +87,7 @@ public class drive_code extends LinearOpMode {
         //Intake Setup------------------------------------------------------------------------------
         intakeMotor = hardwareMap.dcMotor.get("intakeMotor");
         intakeServo = hardwareMap.servo.get("intakeServo");
-
+*/
         waitForStart();
         while(opModeIsActive()){
             //Drive Code----------------------------------------------------------------------------
@@ -103,7 +106,7 @@ public class drive_code extends LinearOpMode {
             m3.setPower(drive - strafe + rotate);
             m4.setPower(drive + strafe - rotate);
 
-            //Outtake Code--------------------------------------------------------------------------
+            /*//Outtake Code--------------------------------------------------------------------------
             leftOM.setPower(gamepad1.right_trigger);
             rightOM.setPower(gamepad1.right_trigger);
 
@@ -152,6 +155,9 @@ public class drive_code extends LinearOpMode {
             //Special System Encoders Telemetry (Testing Purposes)
             telemetry.addData("Raise Encoder", raiseM.getCurrentPosition());
             telemetry.addData("Grabber Encoder", grabberM.getCurrentPosition());
+*/
+            telemetry.addData("M2 power", m2.getPower());
+            telemetry.update();
 
             idle();
         }
