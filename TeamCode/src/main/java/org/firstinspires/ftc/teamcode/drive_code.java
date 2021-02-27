@@ -18,7 +18,7 @@ public class drive_code extends LinearOpMode {
     private double power = 1.0;
 
     //Outtake Variables-----------------------------------------------------------------------------
-    //Outtake MotorsJJIKOIO
+    //Outtake Motors
     private DcMotor leftOM; //Left Outtake Motor
     private DcMotor rightOM; //Right Outtake Motor
 
