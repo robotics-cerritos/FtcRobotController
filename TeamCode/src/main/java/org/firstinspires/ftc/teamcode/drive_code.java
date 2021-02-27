@@ -18,7 +18,7 @@ public class drive_code extends LinearOpMode {
     private double power = 1.0;
 
     //Outtake Variables-----------------------------------------------------------------------------
-    //Outtake Motors
+    //Outtake MotorsJJIKOIO
     private DcMotor leftOM; //Left Outtake Motor
     private DcMotor rightOM; //Right Outtake Motor
 
@@ -156,7 +156,10 @@ public class drive_code extends LinearOpMode {
             telemetry.addData("Raise Encoder", raiseM.getCurrentPosition());
             telemetry.addData("Grabber Encoder", grabberM.getCurrentPosition());
 */
+            telemetry.addData("M1 power", m1.getPower());
             telemetry.addData("M2 power", m2.getPower());
+            telemetry.addData("M3 power", m3.getPower());
+            telemetry.addData("M4 power", m4.getPower());
             telemetry.update();
 
             idle();

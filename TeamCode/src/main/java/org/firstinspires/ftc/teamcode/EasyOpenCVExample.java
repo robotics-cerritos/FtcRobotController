@@ -181,9 +181,9 @@ public class EasyOpenCVExample extends LinearOpMode
                 }
                 pos.add(position);
                 try {
-                    wait(100);
+                    Thread.sleep(100);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    //e.printStackTrace();
                 }
             }
             for(RingPosition rp: pos){
